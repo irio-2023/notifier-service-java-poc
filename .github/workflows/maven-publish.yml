@@ -36,16 +36,18 @@ jobs:
           tags: ${{github.run_number}}
 
       - name: Authenticate with Google Cloud
+        if: github.ref == 'refs/heads/master'
         id: 'auth'
         uses: 'google-github-actions/auth@v2'
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
       - name: Deploy to Cloud Functions
+        if: github.ref == 'refs/heads/master'
         id: 'deploy'
         uses: 'google-github-actions/deploy-cloud-functions@v2'
         with:
-          name: 'my-function'
+          name: 'notifier-service'
           runtime: 'java17'
           entry_point: 'org.springframework.cloud.function.adapter.gcp.GcfJarLauncher'
           source_dir: 'target'
