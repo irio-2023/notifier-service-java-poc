@@ -1,4 +1,4 @@
-package pl.mimuw.template;
+package pl.mimuw.notifier;
 
 import org.junit.jupiter.api.Test;
 

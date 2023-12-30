@@ -1,4 +1,4 @@
-package pl.mimuw.template;
+package pl.mimuw.notifier;
 
 import org.springframework.boot.test.autoconfigure.actuate.observability.AutoConfigureObservability;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,7 +9,7 @@ import org.springframework.test.context.ActiveProfiles;
 @DirtiesContext
 @AutoConfigureObservability
 @ActiveProfiles("it-test")
-@SpringBootTest(classes = TemplateServiceApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = NotifierServiceApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public abstract class AbstractIT {
 
     @LocalServerPort

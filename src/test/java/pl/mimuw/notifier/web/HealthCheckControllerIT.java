@@ -1,8 +1,8 @@
-package pl.mimuw.template.web;
+package pl.mimuw.notifier.web;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import pl.mimuw.template.AbstractIT;
+import pl.mimuw.notifier.AbstractIT;
 
 import static io.restassured.RestAssured.given;
 
