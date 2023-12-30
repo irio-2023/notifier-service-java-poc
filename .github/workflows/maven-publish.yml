@@ -10,7 +10,7 @@ on:
     branches: [ master, develop ]
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -35,23 +35,14 @@ jobs:
           repository: xvisox/notifier-service
           tags: ${{github.run_number}}
 
-  deploy:
-    if: github.ref == 'refs/heads/master'
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write
-
-    steps:
-      - uses: 'actions/checkout@v4'
-
-      - id: 'auth'
+      - name: Authenticate with Google Cloud
+        id: 'auth'
         uses: 'google-github-actions/auth@v2'
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-      - id: 'deploy'
+      - name: Deploy to Cloud Functions
+        id: 'deploy'
         uses: 'google-github-actions/deploy-cloud-functions@v2'
         with:
           name: 'my-function'
