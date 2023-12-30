@@ -36,7 +36,7 @@ jobs:
           tags: ${{github.run_number}}
 
   deploy:
-    if: github.ref == 'refs/heads/cloud-functions'
+    if: github.ref == 'refs/heads/master'
     needs: build
     runs-on: ubuntu-latest
     permissions:
