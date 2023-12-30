@@ -53,6 +53,12 @@
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>2.3.0</version>
         </dependency>
+        <!-- Cloud functions -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-function-adapter-gcp</artifactId>
+            <version>3.2.12</version>
+        </dependency>
         <!-- Testing -->
         <dependency>
             <groupId>io.rest-assured</groupId>
@@ -93,6 +99,13 @@
                         </exclude>
                     </excludes>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.springframework.cloud</groupId>
+                        <artifactId>spring-cloud-function-adapter-gcp</artifactId>
+                        <version>3.2.12</version>
+                    </dependency>
+                </dependencies>
                 <executions>
                     <execution>
                         <id>pre-integration-test</id>
@@ -152,6 +165,15 @@
                     <apiDocsUrl>http://localhost:8080/v3/api-docs</apiDocsUrl>
                     <outputFileName>swagger.json</outputFileName>
                     <outputDir>${project.build.directory}/../src/docs</outputDir>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.google.cloud.functions</groupId>
+                <artifactId>function-maven-plugin</artifactId>
+                <version>0.9.1</version>
+                <configuration>
+                    <functionTarget>org.springframework.cloud.function.adapter.gcp.GcfJarLauncher</functionTarget>
+                    <port>8080</port>
                 </configuration>
             </plugin>
         </plugins>
