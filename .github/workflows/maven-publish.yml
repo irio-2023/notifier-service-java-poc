@@ -22,6 +22,8 @@ jobs:
           settings-path: ${{ github.workspace }} # location for the settings.xml file
 
       - name: Build with Maven
+        env:
+          MONGO_DB_URI: ${{ secrets.MONGO_DB_URI }}
         run: mvn clean install
 
       - name: Build and push Docker image
@@ -32,3 +34,28 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: xvisox/notifier-service
           tags: ${{github.run_number}}
+
+  deploy:
+    if: github.ref == 'refs/heads/cloud-functions'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - uses: 'actions/checkout@v4'
+
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - id: 'deploy'
+        uses: 'google-github-actions/deploy-cloud-functions@v2'
+        with:
+          name: 'my-function'
+          runtime: 'java17'
+          entry_point: 'org.springframework.cloud.function.adapter.gcp.GcfJarLauncher'
+          source_dir: 'target'
+          memory_mb: 512
